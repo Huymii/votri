@@ -1,1 +1,278 @@
-nguyen Quang huy
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <script src="./scripts/popup.js" defer="defer"></script>
+        <title>AutoDuo</title>
+        <style>
+            @import url(https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap);
+            *{padding:0;
+                margin:0;
+                box-sizing:border-box}
+            body
+            {
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                background-color:#ffe6fa;
+                font-family:Nunito,sans-serif;
+                font-weight:700;
+                background-color:#ffdee9;
+                background-image:linear-gradient(225deg,#ffdee9 0,#b5fffc 100%);
+            }
+            root
+            {
+                position:relative;
+                overflow:hidden
+            }
+            .bg
+            {
+                position:absolute;
+                inset:0;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                font-weight:700;
+                font-size:60px;
+                writing-mode:vertical-lr;
+                transform:rotate(232deg);
+                opacity:.1;
+                user-select:none;
+                pointer-events:none
+            }
+            .bg::before
+            {
+                content:"NGHIADX"
+            }
+            .content
+            {
+                display:flex;
+                flex-direction:column;
+                width:350px;
+                min-height:300px;
+                padding:12px 20px;
+                border-radius:8px;
+                box-shadow:rgba(0,0,0,.24) 0 3px 8px;
+                position:relative;
+                z-index:2
+            }
+            #title
+            {
+                margin-bottom:4px;
+                font-size:22px;
+                text-align:center;
+                color:green
+            }
+            #title::before
+            {
+                content:"";
+                display:inline-block;
+                margin-bottom:-9px;
+                margin-right:4px;
+                width:48px;
+                height:48px;
+                background-image:url(assets/icon.png);
+                background-size:cover
+            }
+            #title::after
+            {
+                content:"AUTODUO+";
+                display:inline-block
+            }
+            .description
+            {
+                color:green;
+                text-align:center;
+                font-weight:600;
+                margin-bottom:20px
+            }
+            .description::before
+            {
+                content:"Auto Top 1 Duolingo"
+            }
+            section
+            {
+                flex-grow:1;
+                text-align:center;
+                margin-top:12px;
+                margin-bottom:12px
+            }
+            .control-container
+            {
+                display:flex;
+                justify-content:center
+            }
+            .control-container>button
+            {
+                width:calc(50% - 6px);
+                height:38px;
+                color:#fff;
+                font-weight:700;
+                font-family:inherit;
+                outline:0!important;
+                border:none;
+                border-radius:4px;
+                cursor:pointer;
+                transition:background-color .2s
+            }
+            .control-container>button:hover
+            {
+                opacity:.9
+            }
+            .control-container>button.running
+            {
+                background-color:brown!important
+            }
+            .control-container>button.disable
+            {
+                background-color:#aaa!important;
+                pointer-events:none;
+                user-select:none
+            }
+            #active-btn
+            {
+                background-color:green
+            }
+            #active-finish-btn
+            {
+                background-color:#07f
+            }
+            #exp
+            {
+                margin-top:12px;
+                font-weight:700;
+                font-size:16px
+            }
+            #exp::after
+            {
+                content:" Exp"
+            }
+            .container-style
+            {
+                padding:8px 0;
+                margin:12px 0;
+                border-top:1px solid #ccc;
+                border-bottom:1px solid #ccc;
+                text-align:center;
+                font-weight:700;
+                font-size:14px
+            }
+            .container-style+.container-style
+            {
+                margin-top:-12px;
+                border-top:none
+            }
+            #speed::before
+            {
+                content:"Tốc độ: "
+            }
+            #speed::after
+            {
+                content:" phút/1 bài học!"
+            }
+            #auto-time::before
+            {
+                content:"Đã auto: "
+            }
+            ul.note
+            {
+                list-style-type:circle;
+                padding-left:8px
+            }
+            ul.note li
+            {
+                margin-top:4px;
+                color:green;
+                font-size:12px;
+                font-style:italic;
+                text-align:left
+            }
+            ul.note li.important
+            {
+                color:brown
+            }
+            ul.note li.bold
+            {
+                font-weight:700
+            }
+            .support-link
+            {
+                font-weight:700;
+                text-decoration:none;
+                color:#009dd6;
+                font-size:15px
+            }
+            .support-link:hover
+            {
+                color:orange
+            }
+            .youtube
+            {
+                color:red
+            }
+            .duolingo
+            {
+                color:#58cc02
+            }
+            footer
+            {
+                display:flex;
+                justify-content:space-between;
+                margin-top:20px;
+                font-size:12px;
+                font-style:italic;
+                color:violet;
+                font-weight:700
+            }
+            .pro
+            {
+                display:inline-block;
+                width:70px;
+                height:19px;
+                margin-bottom:-4px;
+                margin-left:4px;
+                background-image:url(assets/pr.ndx);
+                background-size:contain
+                }
+            </style>
+        </head>
+    <body>
+        <div id="root">
+            <div class="bg"></div>
+            <div class="content">
+                <h1 id="title"></h1>
+                <p class="description"></p>
+                <section>
+                    <div class="control-container">
+                        <button id="active-btn" class="">Start Auto EXP</button>
+                    </div>
+                    <p id="exp">0</p>
+                    <p id="speed" class="container-style">0</p>
+                    <p id="auto-time" class="container-style">00 giờ, 00 phút</p>
+                    <ul class="note">
+                        <li class="note bold">Auto chỉ hoạt động trên khoá học "English - Vietnamese"</li>
+                        <li class="note important">Khi có bất kì sự cố nào xảy ra, hãy tắt auto và bật lại hoặc tắt bỏ tab hiện tại và mở sang tab mới!</li>
+                        <li class="note">Liên hệ hỗ trợ: 👉
+                            <a class="support-link" href="https://t.me/+84838513245" target="_blank">Telegram</a>
+                        </li>
+                        <li class="note">Like và Subscribe
+                            <a class="support-link youtube" href="https://youtube.com/@chiovan3450" target="_blank">👉 Youtube</a>
+                        </li>
+                        <li class="note">Tham gia box chat ZALO để trao đổi và cập nhật phiên bản mới nhanh nhất nhé!
+                            <a class="support-link zalo" href="https://zalo.me/g/fyurzi681" target="_blank">👉 ZALO</a>
+                        </li>
+                        <li class="note">Follow me on Duolingo
+                            <a class="support-link duolingo" href="https://www.duolingo.com/profile/anghiadx" target="_blank">👉 AutoDuo</a>
+                        </li>
+                    </ul>
+                </section>
+                <footer>
+                    <span>V1.0.6.1<i class="pro"></i></span>
+                    <span>By Nghiadx</span>
+                </footer>
+            </div>
+        </div>
+    </body>
+</html>
